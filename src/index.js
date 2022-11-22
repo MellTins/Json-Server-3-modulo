@@ -1,122 +1,103 @@
 const express = require('express')
-const {response} = require('express')
-const {uuid} = require('uuidv4')//id unico
+const { response } = require('express')
+const { uuid } = require('uuidv4')//id unico
 
 
 const app = express()
 app.use(express.json())
-const Autores = [ ]
-
-app.get('/Autores',(request, response) =>{
-    return response.json(Autores)
-})//visualizar
-
-
-app.post('/Autores', (request, response) => {
-    const {nome, livro, gênero} = request.body
-    const autor = {id:uuid (), nome, livro, gênero}
-    Autores.push(autor)
-    return response.status(201).json(autor)
-})//adicionar
-
-
-app.put('/Autores/:id', (request, response) => {
-    const { id } = request.params
-    const { nome, livro, gênero } = request.body
-    const newAutores = { id, nome, livro, gênero }
-    const autorindex = Autores.findIndex(autor => autor.id == id)
-    Autores[autorindex] = newAutores;
-    return response.json(newAutores)
-})//atualizar
-
-
-app.delete('/Autores/:id', (request, response) => {
-    const { id } = request.params
-    const autorindex = autor.findIndex(autor => autor.id == id)
-    Autores.splice(autorindex, 1)
-    return response.status(204).send()
-})//deletar
-/////////////////////////////////////
-
-
-//hq's e mangas
-
-
-const Manga = [   {
-    "id":1,
-    "Mangá":"JUJUTSU KAISEN  BATALHA DE FEITICEIROS  VOL 01",
-    "Autor":"Gege Akutami"
-    
-
-}]
-
-app.get('/Manga',(request, response) =>{
-    return response.json(Manga)
-})//visualizar
-
-
-app.post('/Manga', (request, response) => {
-    const {nome, livro, gênero} = request.body
-    const mangas = { nome, livro, gênero}
-    Manga.push(mangas)
-    return response.status(201).json(mangas)
-})//adicionar
-
-
-app.put('/Manga/:id', (request, response) => {
-    const { id } = request.params
-    const { manga, autor } = request.body
-    const newManga = { id, manga, autor }
-    const mangasindex = Manga.findIndex(mangas => mangas.id == id)
-    Manga[mangasindex] = newManga;
-    return response.json(newManga)
-})//atualizar
-
-
-app.delete('/Manga/:id', (request, response) => {
-    const { id } = request.params
-    const mangasindex = mangas.findIndex(mangas => mangas.id == id)
-    Manga.splice(mangasindex, 1)
-    return response.status(204).send()
-})//deletar
-
-///////////////
-
-
-// editoras
+const Autores = []
+const HQs = []
 const Editora = []
 
-app.get('/Editora',(request, response) =>{
+
+
+//---------------------------------------Autores---------------------------------------------//
+
+app.get('/Autores', (request, response) => {
+    return response.json(Autores)
+})//Visualizar
+app.post('/Autores', (request, response) => {
+    const { nome, livro, gênero } = request.body
+    const especificacao = { id: uuid(), nome, livro, gênero  }
+    Autores.push(especificacao)
+    return response.status(201).json(especificacao)
+
+})//inserir
+//put atualiza
+app.put('/Autores/:id', (request, response) => {
+    const { id } = request.params
+    const { nome, livro, gênero  } = request.body
+    const newAutores = { id, nome, livro, gênero }
+    const especificacaoindex = Autores.findIndex(especificacao => especificacao.id == id)
+    Autores[especificacaoindex] = newAutores;
+    return response.json(newAutores)
+})
+//delete apaga
+app.delete('/Autores/:id', (request, response) => {
+    const { id } = request.params
+    const especificacaoindex = Autores.findIndex(especificacao => especificacao.id == id)
+    Autores.splice(especificacaoindex, 1)
+    return response.status(204).send()
+})
+
+///------------------HQ-----------------------------------//
+
+app.get('/HQs', (request, response) => {
+    return response.json(HQs)
+})//Visualizar
+app.post('/HQs', (request, response) => {
+    const { mangá, autor } = request.body
+    const especificacao = { id: uuid(), mangá, autor }
+    HQs.push(especificacao)
+    return response.status(201).json(especificacao)
+
+})//inserir
+//put atualiza
+app.put('/HQs/:id', (request, response) => {
+    const { id } = request.params
+    const { mangá, autor } = request.body
+    const newHQs = { id, mangá, autor }
+    const especificacaoindex = HQs.findIndex(especificacao => especificacao.id == id)
+    HQs[especificacaoindex] = newHQs;
+    return response.json(newHQs)
+})
+//delete apaga
+app.delete('/HQs/:id', (request, response) => {
+    const { id } = request.params
+    const especificacaoindex = HQs.findIndex(especificacao => especificacao.id == id)
+    HQs.splice(especificacaoindex, 1)
+    return response.status(204).send()
+})
+
+//----------------------------------------------------Editoras--------------------//
+
+app.get('/Editora', (request, response) => {
     return response.json(Editora)
-})//visualizar
-
-
+})//Visualizar
 app.post('/Editora', (request, response) => {
-    const {nome, livro, gênero} = request.body
-    const editoras = { nome, livro, gênero}
-    Editora.push(editoras)
-    return response.status(201).json(editoras)
-})//adicionar
+    const {editora, endereço } = request.body
+    const especificacao = { id: uuid(), editora, endereço }
+    Editora.push(especificacao)
+    return response.status(201).json(especificacao)
 
-
+})//inserir
+//put atualiza
 app.put('/Editora/:id', (request, response) => {
     const { id } = request.params
-    const { nome, livro, gênero } = request.body
-    const newEditora = { nome, livro, gênero }
-    const editorasindex = Editora.findIndex(editoras => editoras.id == id)
-    Editora[editorasindex] = newEditora;
+    const {editora, endereço } = request.body
+    const newEditora = { id, editora, endereço}
+    const especificacaoindex = Editora.findIndex(especificacao => especificacao.id == id)
+    Editora[especificacaoindex] = newEditora;
     return response.json(newEditora)
-})//atualizar
-
-
+})
+//delete apaga
 app.delete('/Editora/:id', (request, response) => {
     const { id } = request.params
-    const editorasindex = editoras.findIndex(editoras => editoras.id == id)
-    Editora.splice(editorasindex, 1)
+    const especificacaoindex = notebooks.findIndex(especificacao => especificacao.id == id)
+    Editora.splice(especificacaoindex, 1)
     return response.status(204).send()
-})//deletar
+})
 
-
-app.listen(8181, () =>{
-    console.log('o servidor foi iniciado')
+app.listen(8181, () => {
+    console.log('O Servidor foi iniciado!')
 })
